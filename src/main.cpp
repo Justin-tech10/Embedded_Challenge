@@ -132,32 +132,32 @@ void handleOutput(double estimatedFreq) {
   toneFrequency = 0;
 
 
-  // Tremor
-  // if (estimatedFreq >= 3.0 && estimatedFreq <= 5.0) {
-  //   currentBrightness = mapFloat(estimatedFreq, 3.0, 5.0, 50, 200);
-  //   toneFrequency = mapFloat(currentBrightness, 50, 200, 300, 800);
-  //   for (uint8_t i : rightPixels) strip.setPixelColor(i, 0);
-  //   for (uint8_t i : leftPixels)  strip.setPixelColor(i, strip.Color(currentBrightness, 0, 0)); // Red
-  //   leftActive = true;
-  //   rightActive = false;
-  //   Serial.println("Tremor Detected (Red)");
-  // }
+ // Tremor
+  if (estimatedFreq >= 3.0 && estimatedFreq <= 5.0) {
+    currentBrightness = mapFloat(estimatedFreq, 3.0, 5.0, 50, 200);
+    toneFrequency = mapFloat(currentBrightness, 50, 200, 300, 800);
+    for (uint8_t i : rightPixels) strip.setPixelColor(i, 0);
+    for (uint8_t i : leftPixels)  strip.setPixelColor(i, strip.Color(currentBrightness, 0, 0)); // Red
+    leftActive = true;
+    rightActive = false;
+    Serial.println("Tremor Detected (Red)");
+  }
 
 
-  // Dyskinesia
-  // else if (estimatedFreq > 5.0 && estimatedFreq <= 7.0) {
-  //   currentBrightness = mapFloat(estimatedFreq, 5.0, 7.0, 50, 200);
-  //   toneFrequency = mapFloat(currentBrightness, 50, 200, 300, 800);
-  //   for (uint8_t i : leftPixels)  strip.setPixelColor(i, 0);
-  //   for (uint8_t i : rightPixels) strip.setPixelColor(i, strip.Color(0, 0, currentBrightness)); // Blue
-  //   leftActive = false;
-  //   rightActive = true;
-  //   Serial.println("Dyskinesia Detected (Blue)");
-  // }
+ // Dyskinesia
+  else if (estimatedFreq > 5.0 && estimatedFreq <= 7.0) {
+    currentBrightness = mapFloat(estimatedFreq, 5.0, 7.0, 50, 200);
+    toneFrequency = mapFloat(currentBrightness, 50, 200, 300, 800);
+    for (uint8_t i : leftPixels)  strip.setPixelColor(i, 0);
+    for (uint8_t i : rightPixels) strip.setPixelColor(i, strip.Color(0, 0, currentBrightness)); // Blue
+    leftActive = false;
+    rightActive = true;
+    Serial.println("Dyskinesia Detected (Blue)");
+  }
 
 
   // Normal or Stillness movement
- // else {
+  else {
     for (int i = 0; i < 10; i++) {
       strip.setPixelColor(i, strip.Color(0, 100, 0)); // Green
     }
@@ -167,7 +167,7 @@ void handleOutput(double estimatedFreq) {
     rightActive = false;
     Serial.println("Normal or No Movement Detected (Green)");
     return;
- // }
+  }
 
 
   strip.show();
